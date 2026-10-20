@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Paywall Audit — Stompers</title>
+<meta name="description" content="Five changes to the Super Stompers paywall, fed by what the onboarding already asks. Prepared by Adapty.">
+<link rel="icon" href="img/guy-34fa27e2.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- Stompers' app: light grey ground, white rounded cards, orange gradient pill with a black outline, Pally with a black stroke (sampled off the frames and stompers.com) ---- */
+  --s-bg:#f4f5f7; --s-card:#ffffff; --s-ink:#1f2026; --s-ink2:#6c6f7a; --s-line:#e3e5ea; --s-tile:#f6f6f8;
+  --s-or:linear-gradient(180deg,#ffc24a 0%,#ff9a2e 55%,#f86f1e 100%); --s-or1:#ff9a2e; --s-yel:#ffc21a; --s-cyan:#19d0f0; --s-check:#ffa726;
+  /* ---- the shell, in the same identity ---- */
+  --bg:#f4f5f7; --bg2:#ffffff; --cream:#ffedc9; --ink:#1f2026; --ink2:#5f636e; --ink3:#8b8f99; --hair:#e3e5ea; --hair2:#d4d7de;
+  --accent:#f7781f; --acc-soft:rgba(247,120,31,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:Pally,'Nunito',system-ui,sans-serif;font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input{font:inherit}
+/* their signature: white type with a black stroke */
+.st{color:#fff;font-weight:700;-webkit-text-stroke:.16em #18191d;paint-order:stroke fill;text-shadow:0 .06em 0 #18191d;letter-spacing:-.01em}
+.hi{color:var(--accent)}
+
+/* nav, as their floating tab bar */
+.nav{position:sticky;top:0;z-index:70;padding:12px 18px;background:linear-gradient(180deg,rgba(244,245,247,.96) 70%,rgba(244,245,247,0))}
+.nav-in{max-width:1180px;margin:0 auto;height:66px;background:#fff;border-radius:999px;box-shadow:0 6px 24px rgba(20,22,30,.08);display:flex;align-items:center;gap:14px;padding:0 10px 0 22px}
+.nav-in .wm{height:30px;width:auto;display:block}
+.nav-in .lb{font:700 14px/1 Pally,sans-serif;color:var(--ink3);padding-left:14px;border-left:1px solid var(--hair)}
+.nav-links{margin-left:auto;display:flex;gap:4px}
+.tab{display:flex;align-items:center;gap:8px;height:48px;padding:0 20px 0 14px;border-radius:999px;font:700 15px/1 Pally,sans-serif;color:var(--ink2)}
+.tab img{width:26px;height:26px;object-fit:contain}
+.tab.on{background:#eceef2;color:var(--ink)}
+@media(max-width:560px){.nav{padding:8px 10px}.nav-in{height:56px;padding:0 6px 0 14px}.nav-in .wm{height:22px}.nav-in .lb{display:none}.tab{height:42px;padding:0 13px 0 9px;font-size:14px}.tab img{width:22px;height:22px}}
+
+.view{display:none}.view.on{display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 18px}}
+
+/* ============ overview ============ */
+.hero{position:relative;overflow:hidden;text-align:center;padding:40px 0 0;margin-top:-90px;padding-top:130px;background:linear-gradient(180deg,#fdf2da 0%,#fbe6bd 62%,#f4f5f7 100%)}
+.hero>.wrap{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 13px/1 Pally,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-bottom:18px}
+.eyebrow i{display:block;width:90px;height:12px;border-radius:99px;background:#e6e8ec;overflow:hidden;position:relative}
+.eyebrow i::after{content:'';position:absolute;left:0;top:0;bottom:0;width:72%;border-radius:99px;background:linear-gradient(180deg,#ffb04a,#f7781f)}
+.hero .wmk{display:block;height:64px;width:auto;margin:6px auto 10px}
+.hero h1{font:700 64px/1.08 Pally,sans-serif;margin:0 auto 18px;max-width:820px}
+.hero .lede{font:500 19px/1.5 Pally,sans-serif;color:var(--ink2);max-width:620px;margin:0 auto}
+.hero .meta{margin-top:14px;font-size:14px;color:var(--ink3)}
+.hero .meta b{color:var(--ink2)}
+.herobtns{display:flex;justify-content:center;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:58px;padding:0 30px;border-radius:999px;border:3px solid #18191d;font:700 18px/1 Pally,sans-serif;position:relative;overflow:hidden}
+.btn.pri{background:var(--s-or)}
+.btn.pri span{color:#fff;-webkit-text-stroke:.16em #18191d;paint-order:stroke fill}
+.btn.pri::before{content:'';position:absolute;left:14px;top:7px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.6)}
+.btn.pri:hover{filter:brightness(1.05)}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn.ghost:hover{background:#f7f7f9}
+@media(max-width:700px){.eyebrow i{display:none}.eyebrow{font-size:11.5px;letter-spacing:.12em}}
+@media(max-width:820px){.hero h1{font-size:38px}.hero .wmk{height:44px}.hero .lede{font-size:16.5px}.btn{height:52px;font-size:16px;padding:0 22px}}
+.live{display:inline-flex;align-items:center;gap:8px;font:600 13.5px/1 Pally,sans-serif;color:var(--ink3);margin-top:18px}
+.live i{width:8px;height:8px;border-radius:50%;background:#2ec26a;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,194,106,.55)}70%{box-shadow:0 0 0 9px rgba(46,194,106,0)}100%{box-shadow:0 0 0 0 rgba(46,194,106,0)}}
+/* the desert, as on stompers.com */
+.desert{position:relative;height:300px;margin-top:6px}
+.desert .gr{position:absolute;left:0;right:0;bottom:0;height:150px;background:url(img/ground-ef857c1d.png) center top/auto 150px repeat-x}
+.desert img{position:absolute;bottom:58px}
+.desert .p1{height:220px;left:calc(50% - 290px)}
+.desert .p2{height:236px;left:calc(50% - 60px)}
+.desert .p3{height:250px;left:calc(50% + 150px)}
+.desert .bu{height:86px;left:calc(50% - 430px);bottom:84px}
+.desert .ro{height:70px;left:calc(50% + 360px);bottom:82px}
+@media(max-width:700px){.desert{height:210px}.desert .gr{height:100px;background-size:auto 100px}.desert img{bottom:38px}.desert .p1{height:140px;left:calc(50% - 175px)}.desert .p2{height:150px;left:calc(50% - 50px)}.desert .p3{height:160px;left:calc(50% + 70px)}.desert .bu,.desert .ro{display:none}}
+.proofbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:-36px auto 0;max-width:860px;position:relative;z-index:3}
+@media(max-width:760px){.proofbar{grid-template-columns:1fr}}
+.pb{display:flex;align-items:center;gap:14px;text-align:left;font-size:14px;line-height:1.3;color:var(--ink2);background:#fff;border-radius:24px;padding:14px 16px;box-shadow:0 4px 18px rgba(20,22,30,.06)}
+.pb b{display:block;font-size:17px;color:var(--ink);font-weight:700}
+.pb .ti{width:52px;height:52px;border-radius:16px;background:var(--s-tile);display:grid;place-items:center;flex:none;overflow:hidden}
+.pb .ti img{width:46px;height:46px;object-fit:contain}
+.stats{display:flex;margin:36px auto 0;max-width:780px;border-top:1px solid var(--hair2);border-bottom:1px solid var(--hair2)}
+.stat{flex:1;padding:22px 12px;text-align:center;border-left:1px solid var(--hair2)}
+.stat:first-child{border-left:0}
+.stat b{display:block;font:700 38px/1.05 Pally,sans-serif}
+.stat span{display:block;font-size:13px;color:var(--ink3);margin-top:7px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:26px}.stat{padding:18px 6px}}
+.fb{max-width:780px;margin:0 auto;padding:28px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:16px}}
+.fb-k{grid-column:1/-1;font:700 12px/1 Pally,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px}
+.fb-i .tick{width:26px;height:26px;flex:none;border-radius:50%;background:var(--s-check);border:2px solid #18191d;display:grid;place-items:center}
+.fb-i p{font-size:15px;line-height:1.55;color:var(--ink2)}
+.fb-i p b{color:var(--ink)}
+.sec{padding:90px 0}
+.sec-k{font:700 13px/1 Pally,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.sec h2{font:700 42px/1.12 Pally,sans-serif;margin:0 0 22px;max-width:860px}
+.sec p.body{font-size:17.5px;line-height:1.62;color:var(--ink2);max-width:700px;margin:0 0 18px}
+.sec p.body b{color:var(--ink);font-weight:700}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:56px 0}}
+/* cards in their feature-card style */
+.fc{background:#fff;border-radius:28px;display:flex;gap:18px;align-items:center;padding:18px 22px 18px 18px}
+.fc .ti{width:84px;height:84px;border-radius:22px;flex:none;overflow:hidden;background:var(--s-tile);display:grid;place-items:center}
+.fc .ti img{width:100%;height:100%;object-fit:cover}
+.fc .ti.c img{width:78px;height:78px;object-fit:contain}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px;max-width:900px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.notes .fc{align-items:flex-start}
+.fc h4{font:700 19px/1.25 Pally,sans-serif;margin-bottom:6px}
+.fc p{font-size:15px;line-height:1.55;color:var(--ink2)}
+.ideas{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.idea{text-align:left;width:100%;display:grid;grid-template-columns:96px 1fr 200px;gap:20px;align-items:center;background:#fff;border-radius:28px;padding:18px 24px 18px 18px;transition:transform .15s,box-shadow .15s}
+.idea:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(20,22,30,.08)}
+@media(max-width:780px){.idea{grid-template-columns:64px 1fr;gap:14px;padding:16px}}
+.idea .ti{position:relative;width:92px;height:92px;border-radius:24px;background:var(--s-tile);overflow:visible}
+.idea .ti img{width:100%;height:100%;object-fit:cover;border-radius:24px}
+.idea .ti.c img{object-fit:contain;padding:4px}
+.idea .ti .no{position:absolute;right:-6px;top:-6px;width:28px;height:28px;border-radius:50%;background:var(--s-check);border:2.5px solid #18191d;color:#fff;font:700 14px/23px Pally,sans-serif;text-align:center;-webkit-text-stroke:.12em #18191d;paint-order:stroke fill}
+@media(max-width:780px){.idea .ti{width:62px;height:62px;border-radius:18px}.idea .ti img{border-radius:18px}}
+.idea h3{font:700 21px/1.25 Pally,sans-serif;margin-bottom:5px}
+.idea p{font-size:15px;line-height:1.55;color:var(--ink2);max-width:600px}
+.idea .seeit{display:inline-block;margin-top:9px;font:700 14px/1 Pally,sans-serif;color:var(--accent)}
+.idea .out{text-align:right}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left}}
+.idea .out b{display:block;font:700 26px/1.1 Pally,sans-serif;white-space:nowrap;color:var(--accent)}
+.idea .out span{display:block;font-size:11px;color:var(--ink3);margin-top:5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+/* the outcome, as their limited-pack card with the tilted price tag */
+.band{position:relative;margin-top:20px;border-radius:28px;border:3px solid #f6c48c;background:linear-gradient(135deg,#ffb54a 0%,#fb8c2a 55%,#f7781f 100%);padding:30px 34px 34px;overflow:hidden;display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.band .txt{flex:1;min-width:250px}
+.band .lab{display:inline-block;background:#fff;border-radius:999px;padding:6px 14px;font:700 12px/1 Pally,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:14px}
+.band .txt p{font:500 17px/1.55 Pally,sans-serif;color:#fff;text-shadow:0 1px 2px rgba(120,40,0,.25)}
+.band .tag{background:#fff;border:3px solid #18191d;border-radius:18px 18px 18px 18px;padding:14px 22px;transform:rotate(-4deg);display:flex;gap:26px;box-shadow:0 6px 0 rgba(0,0,0,.12)}
+.band .tag b{display:block;font:700 34px/1.05 Pally,sans-serif;color:var(--ink)}
+.band .tag span{display:block;font-size:11px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-top:3px}
+.cta-row{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:48px;flex-wrap:wrap}
+.qr{display:flex;align-items:center;gap:16px;background:#fff;border-radius:24px;padding:12px 20px 12px 12px}
+.qr img{width:135px;height:135px;image-rendering:pixelated;display:block;border-radius:10px}
+.qr b{display:block;font:700 16px/1.3 Pally,sans-serif}
+.qr span{display:block;font-size:13.5px;color:var(--ink3);line-height:1.45;max-width:170px;margin-top:3px}
+@media(max-width:1080px){.qr{display:none}}
+.foot{border-top:1px solid var(--hair2);padding:34px 0 70px;font-size:13px;line-height:1.6;color:var(--ink3)}
+
+/* ============ paywall view ============ */
+.stage{display:grid;grid-template-columns:minmax(470px,1fr) minmax(420px,560px);align-items:start;min-height:calc(100vh - 90px)}
+@media(max-width:1060px){.stage{grid-template-columns:minmax(0,1fr)}.panelcol{position:static!important;max-height:none!important;border-left:0!important;border-top:1px solid var(--hair)}}
+.phonecol{padding:14px 24px 44px;display:flex;flex-direction:column;align-items:center;gap:14px;position:relative;background:radial-gradient(60% 520px at 50% 0,#fbe6bd,transparent 100%)}
+.panelcol{border-left:1px solid var(--hair);background:#fff;position:sticky;top:90px;max-height:calc(100vh - 90px);overflow-y:auto}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.seg{display:inline-flex;background:#fff;border:1.5px solid var(--hair2);border-radius:999px;padding:3px;gap:2px}
+.seg button{padding:7px 13px;border-radius:999px;font:700 13px/1 Pally,sans-serif;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:#fff}
+.seg#segVar button.on{background:var(--s-or1);color:#fff}
+.seg.demo button{display:flex;align-items:center;gap:6px}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.chip{height:40px;padding:0 17px;border-radius:999px;background:#fff;border:2px solid var(--hair2);font:700 14px/1 Pally,sans-serif;color:var(--ink2);display:inline-flex;align-items:center;gap:7px}
+.chip.on{border-color:#18191d;color:var(--ink);background:#fff;box-shadow:0 3px 0 #18191d}
+.chip.offer{color:var(--accent)}
+.chip.offer.on{background:var(--s-or);color:#fff;-webkit-text-stroke:.1em #18191d;paint-order:stroke fill}
+.demo-cap{width:412px;max-width:100%;background:var(--ink);color:#fff;border-radius:16px;padding:0 16px;font-size:14.5px;font-weight:500;line-height:1.4;overflow:hidden;max-height:0;transition:max-height .25s,padding .25s}
+.demo-cap.on{max-height:90px;padding:11px 16px 13px}
+.demo-cap .bar{height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:9px;overflow:hidden}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--s-or1)}
+.finger{position:absolute;z-index:200;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(31,32,38,.25);border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.3);pointer-events:none;opacity:0;transition:left .38s cubic-bezier(.4,0,.2,1),top .38s cubic-bezier(.4,0,.2,1),transform .12s,opacity .2s}
+.finger.on{opacity:1}.finger.press{transform:scale(.72)}
+
+.phone{position:relative;isolation:isolate;width:412px;height:866px;flex:none;background:#000;border:11px solid #121318;border-radius:50px;box-shadow:0 0 0 1.5px #c9ccd3,0 34px 70px -24px rgba(20,22,30,.45)}
+.phone-in{position:absolute;inset:0;border-radius:40px;overflow:hidden;background:var(--s-bg)}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:#000;border-radius:18px;z-index:60}
+.sbar{position:absolute;top:0;left:0;right:0;height:47px;z-index:55;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 44px;font:600 16px/1 -apple-system,'SF Pro Text',Inter,sans-serif;color:#111;pointer-events:none}
+.sbar .g{display:flex;gap:6px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:96}
+.dark .homebar{background:#fff}
+
+/* ---- the Super Stompers paywall: their system, prefixed scr- ---- */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;color:var(--s-ink);font-family:Pally,'Nunito',system-ui,sans-serif;background:var(--s-bg);line-height:normal}
+.dark{--s-bg:#15171c;--s-card:#22252c;--s-ink:#f2f3f5;--s-ink2:#9aa0ab;--s-line:#2f333b;--s-tile:#2b2f37}
+.scr-x{position:absolute;top:62px;right:20px;z-index:20;width:34px;height:34px;display:grid;place-items:center}
+.scr-x svg path{stroke:#18191d}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative;z-index:1}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-hero{position:relative;height:240px;background:url(img/hero-bg.png) 0 0/100% 100% no-repeat;overflow:hidden}
+.scr-hero.t{background:url(img/hero-today.png) 0 0/100% 100% no-repeat}
+.scr-hero .ro{position:absolute;height:58px;left:60%;bottom:52px}
+.scr-hero .bu{position:absolute;height:56px;left:5%;bottom:50px}
+.scr-hero .me{position:absolute;height:152px;left:50%;bottom:24px;transform:translateX(-50%)}
+.scr-hero .nm{position:absolute;left:calc(50% + 40px);top:74px;background:#fff;border:3px solid #18191d;border-radius:14px;padding:4px 12px;font-size:17px;font-weight:700;color:#18191d;transform:rotate(4deg)}
+.scr-hero .nm::after{content:'';position:absolute;left:12px;bottom:-9px;width:12px;height:12px;background:#fff;border-right:3px solid #18191d;border-bottom:3px solid #18191d;transform:rotate(45deg)}
+.scr-h1{font-size:29px;line-height:1.1;text-align:center;margin:12px 22px 0}
+.today .scr-h1{font-size:31px;margin-top:14px}
+.scr-sub{text-align:center;font-size:15px;font-weight:500;color:var(--s-ink2);margin:8px 40px 0;line-height:1.35}
+.scr-sub b{color:var(--s-ink)}
+.scr-plans{position:relative;margin:24px 18px 0;background:var(--s-card);border-radius:24px;padding:4px 0}
+.scr-badge{position:absolute;right:6px;top:-14px;background:var(--s-yel);color:#18191d;font-size:13px;font-weight:700;border-radius:10px;padding:5px 10px;letter-spacing:.01em;z-index:2}
+.scr-p{width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;padding:13px 16px 13px 14px;text-align:left;color:var(--s-ink);font-family:inherit}
+.scr-p .rd{width:28px;height:28px;border-radius:50%;border:2px solid #cfd2d8;display:grid;place-items:center}
+.scr-p.on .rd{background:var(--s-check);border-color:var(--s-check)}
+.scr-p .rd svg{display:none}.scr-p.on .rd svg{display:block}
+.scr-p b{display:block;font-size:17px;font-weight:700}
+.scr-p small{display:block;font-size:13.5px;font-weight:500;color:#b07a3a;margin-top:2px}
+.scr-p .pr{text-align:right;font-size:16px;font-weight:700;white-space:nowrap}
+.scr-p .pr small{color:var(--s-ink2);text-align:right}
+.scr-p:not(.on) .pr{color:var(--s-ink2);font-weight:600}
+.scr-lab{text-align:center;font-size:15px;font-weight:700;margin:20px 0 10px}
+.scr-fs{display:flex;flex-direction:column;gap:10px;margin:0 18px}
+.scr-f{display:flex;gap:14px;align-items:center;background:var(--s-card);border-radius:22px;padding:12px}
+.scr-f img{width:62px;height:62px;border-radius:16px;object-fit:cover;flex:none}
+.scr-f b{display:block;font-size:17px;font-weight:700}
+.scr-f span{display:block;font-size:14px;font-weight:500;color:var(--s-ink2);margin-top:1px}
+.scr-f em{font-style:normal;display:inline-block;margin-left:6px;vertical-align:2px;background:var(--s-cyan);color:#fff;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 6px;-webkit-text-stroke:.1em #0b4a57;paint-order:stroke fill}
+.scr-love{text-align:center;margin:26px 22px 0}
+.scr-love h3{font-size:25px;line-height:1.12}
+.scr-love .r{font-size:46px;font-weight:700;margin-top:10px;line-height:1}
+.scr-love .stars{color:#ffb300;font-size:22px;letter-spacing:3px;margin-top:4px}
+.scr-love .n{font-size:15px;font-weight:500;color:var(--s-ink2);margin-top:2px}
+.scr-rev{background:var(--s-card);border-radius:24px 24px 0 0;margin:18px 0 0;padding:18px 20px 24px}
+.scr-rev .top{display:flex;justify-content:space-between;gap:10px}
+.scr-rev b{font-size:16px;font-weight:700}
+.scr-rev .who{font-size:13.5px;color:var(--s-ink2);text-align:right;line-height:1.5}
+.scr-rev .stars{color:#ffb300;font-size:17px;letter-spacing:2px}
+.scr-rev p{font-size:15px;line-height:1.5;margin-top:8px}
+.scr-foot{flex:none;border-top:1px solid var(--s-line);padding:12px 16px 24px;position:relative;z-index:5;background:var(--s-bg);text-align:center}
+.scr-cta{width:100%;height:58px;border-radius:999px;border:3px solid #18191d;background:var(--s-or);font-family:inherit;font-size:22px;font-weight:700;position:relative;overflow:hidden}
+.scr-cta span{color:#fff;-webkit-text-stroke:.17em #18191d;paint-order:stroke fill}
+.scr-cta::before{content:'';position:absolute;left:18px;top:8px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.65)}
+.scr-help{text-align:center;font-size:14.5px;font-weight:600;color:var(--s-ink2);margin-top:8px}
+.scr-proof{font-size:13.5px;font-weight:700;color:var(--s-ink);margin-top:5px}
+.scr-proof i{font-style:normal;color:#ffb300}
+.scr-links{display:flex;justify-content:space-around;font-size:13px;font-weight:500;color:var(--s-ink2);margin-top:10px}
+.scr-toast{position:absolute;left:16px;right:16px;bottom:190px;background:rgba(31,32,38,.94);color:#fff;font:700 14px/1.4 Pally,sans-serif;padding:11px 14px;border-radius:14px;z-index:120;opacity:0;transition:opacity .25s;pointer-events:none;text-align:center}
+.scr-toast.show{opacity:1}
+
+/* the offer on close */
+.scr-dim{position:absolute;inset:0;background:rgba(10,12,16,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:80}
+.scr-dim.on{opacity:1;pointer-events:auto}
+.scr-of{position:absolute;left:0;right:0;bottom:0;z-index:90;background:var(--s-bg);color:var(--s-ink);border-radius:30px 30px 0 0;padding:12px 18px 26px;font-family:Pally,sans-serif;transform:translateY(105%);transition:transform .38s cubic-bezier(.32,.72,0,1);box-shadow:0 -10px 40px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:10px}
+.scr-of.on{transform:translateY(0)}
+.hdl{width:40px;height:5px;border-radius:3px;background:#cfd2d8;align-self:center}
+.scr-of .ox{position:absolute;top:16px;right:18px;width:30px;height:30px;display:grid;place-items:center}
+.scr-of .ox svg path{stroke:var(--s-ink)}
+.of-art{align-self:center;width:118px;height:118px;border-radius:24px;overflow:hidden;transform:rotate(-3deg);box-shadow:0 6px 18px rgba(0,0,0,.15);margin-top:2px}
+.of-art img{width:100%;height:100%;object-fit:cover}
+.of-h{text-align:center;font-size:26px;line-height:1.1}
+.of-s{text-align:center;font-size:14.5px;font-weight:500;color:var(--s-ink2);line-height:1.4;margin:0 6px}
+.of-s b{color:var(--s-ink)}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;background:var(--s-card);border-radius:22px;font-size:14.5px;overflow:hidden}
+.cmp th{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--s-ink2);padding:12px 0 6px;text-align:center;width:62px}
+.cmp th:first-child{text-align:left;padding-left:16px;width:auto}
+.cmp th.p{color:var(--s-or1)}
+.cmp td{padding:8px 0;border-top:1px solid var(--s-line);text-align:center;font-weight:600}
+.cmp td:first-child{text-align:left;padding-left:16px}
+.cmp .y{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--s-check);color:#fff;font-size:12px;font-weight:700}
+.cmp .n{color:#c2c5cc}
+.of-no{text-align:center;font-size:15px;color:var(--s-ink2);padding:2px;font-weight:600}
+
+/* today = what ships now */
+.today .pz{display:none!important}
+.phone-in:not(.today) .tdy{display:none!important}
+
+/* markers */
+.mk{position:absolute;z-index:70;width:24px;height:24px;border-radius:50%;background:var(--s-check);color:#fff;font:700 13px/20px Pally,sans-serif;text-align:center;border:2px solid #18191d;pointer-events:none;transition:transform .2s;-webkit-text-stroke:.1em #18191d;paint-order:stroke fill}
+.today .mk,.indemo .mk,.ofon .mk{display:none}
+.hl{outline:3px solid #18191d;outline-offset:3px;border-radius:18px}
+.mk.hot{transform:scale(1.25)}
+.flash{animation:flash 1.8s ease 2}
+@keyframes flash{0%,100%{outline:3px solid transparent;outline-offset:3px}50%{outline:3px solid #18191d;outline-offset:3px}}
+
+/* what the onboarding already asked */
+.ans{width:412px;max-width:100%;background:#fff;border-radius:26px;padding:18px 18px 16px}
+.ans .k{font:700 17px/1.2 Pally,sans-serif}
+.ans p{font-size:13.5px;color:var(--ink3);margin:5px 0 4px;line-height:1.45}
+.ans label{display:block;font:700 13px/1.3 Pally,sans-serif;color:var(--ink2);margin:14px 0 8px}
+.ans input{width:100%;height:46px;border:2px solid var(--hair);background:#fff;border-radius:16px;padding:0 15px;font-size:16px;font-weight:600;outline:0;color:var(--ink)}
+.ans input:focus{border-color:var(--s-cyan)}
+.cols{display:flex;gap:8px}
+.cols button{flex:1;height:76px;border-radius:16px;border:2px solid var(--hair);background:var(--s-tile);display:grid;place-items:center}
+.cols button img{height:64px}
+.cols button.on{border-color:var(--s-cyan);background:#fff}
+.who{display:flex;flex-direction:column;gap:6px}
+.who button{display:flex;justify-content:space-between;align-items:center;height:46px;border-radius:16px;border:2px solid var(--hair);background:#fff;padding:0 14px;font:700 15px/1 Pally,sans-serif;color:var(--ink)}
+.who button.on{border-color:var(--s-cyan)}
+.who button em{font-style:normal;background:var(--s-cyan);color:#fff;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border-radius:8px;padding:4px 8px;transform:rotate(-2deg);-webkit-text-stroke:.1em #0b4a57;paint-order:stroke fill}
+.backbar{width:412px;max-width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.backbtn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px 0 8px;border-radius:999px;background:#fff;font:700 14.5px/1 Pally,sans-serif}
+.backbtn i{width:32px;height:32px;border-radius:50%;background:#eceef2;display:grid;place-items:center}
+.backbtn svg{width:16px;height:16px}
+.backbar .where{font-size:13px;font-weight:600;color:var(--ink3)}
+.qr.side{width:412px;max-width:100%}
+
+/* panel */
+.pn{padding:30px 34px 60px}
+.pn-eb{font:700 12px/1 Pally,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.pn h1{font:700 29px/1.15 Pally,sans-serif;margin:12px 0 12px}
+.pn .lede{font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.pn .lede b{color:var(--ink)}
+.pn-from{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 4px}
+.pn-from span{font-size:13px;font-weight:600;border-radius:999px;padding:5px 11px;background:#eef0f3;color:var(--ink2)}
+.pn-from span b{color:var(--ink)}
+.chg{border-top:1px solid var(--hair);padding:22px 0 20px;display:grid;grid-template-columns:32px 1fr;gap:14px;transition:background .15s}
+.chg:first-of-type{margin-top:22px}
+.chg .no{width:28px;height:28px;border-radius:50%;background:var(--s-check);border:2px solid #18191d;color:#fff;font:700 13.5px/24px Pally,sans-serif;text-align:center;margin-top:1px;-webkit-text-stroke:.1em #18191d;paint-order:stroke fill}
+.chg h3{font:700 18.5px/1.3 Pally,sans-serif}
+.chg .ba{margin-top:10px;display:grid;grid-template-columns:54px 1fr;gap:6px 10px;font-size:14.5px;line-height:1.5}
+.chg .ba dt{font:700 10.5px/1 Pally,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);padding-top:5px}
+.chg .ba dd{color:var(--ink)}
+.chg .ba dd q{quotes:'“' '”'}
+.chg .uses{margin-top:10px;font-size:13px;color:var(--ink3)}
+.chg .uses b{color:var(--ink2)}
+.chg .imp{margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chg .imp b{font:700 29px/1.1 Pally,sans-serif;color:var(--accent);white-space:nowrap}
+.chg .imp span{font-size:12px;color:var(--ink3)}
+.chg .imp .lbl{display:block;width:100%;font:700 10.5px/1 Pally,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.chg:hover{background:#fafafb}
+.kept{border-top:1px solid var(--hair);padding-top:20px;margin-top:4px}
+.kept .k{font:700 11px/1 Pally,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.kept p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin-top:8px}
+.pn-lang{display:none;font-size:13px;color:var(--ink2);background:#f3f4f6;border-radius:12px;padding:9px 12px;margin-top:14px}
+.pn-lang.on{display:block}
+.pn-foot{font-size:12px;line-height:1.55;color:var(--ink3);border-top:1px solid var(--hair);padding-top:14px;margin-top:22px}
+
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  .phonecol{padding:10px 0 28px}
+  .phone{width:100vw;height:calc(100svh - 72px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:3}
+  .phone-in{border-radius:0}
+  .island,.sbar,.homebar{display:none}
+  .scr-x{top:14px}
+  .scr-hero{height:200px}
+  .scr-hero .me{height:160px}
+  .scr-hero .nm{top:22px}
+  .scr-foot,.scr-of{padding-bottom:16px}
+  .backbar{order:1;padding:0 12px;width:100%}.backbar .where{display:none}
+  .seg button{padding:7px 10px;font-size:12.5px}.tools{order:2;padding:0 8px}.demo-cap{order:4;width:auto;align-self:stretch;margin:0 10px}
+  .chips{order:5}.ans{order:6;width:auto;margin:0 12px}
+  .demo-cap.on{position:fixed;left:10px;right:10px;bottom:10px;width:auto;z-index:150}
+}
+</style>
+</head>
+<body>
+<div class="nav"><div class="nav-in"><img class="wm" src="img/wordmark-4de0f241.png" alt="Stompers"><span class="lb">Paywall audit</span><div class="nav-links"><button class="tab on" data-view="over"><img src="img/guy-34fa27e2.png" alt="">Overview</button><button class="tab" data-view="pw"><img src="img/t-packs.png" alt="" style="border-radius:8px">Paywall</button></div></div></div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+<div class="hero">
+  <div class="wrap">
+  <div class="eyebrow"><i></i>Paywall audit · October 2026</div>
+  <img class="wmk" src="img/wordmark-4de0f241.png" alt="Stompers">
+  <h1 class="st">Five ideas for the Super Stompers paywall</h1>
+  <p class="lede">Five changes to the screen where a new Stomper decides on Super, fed by what your onboarding already asks and the proof you already publish.</p>
+  <div class="meta">Prepared by <b>Adapty</b> · based on the iOS app, your App Store listing and stompers.com</div>
+  <div class="herobtns">
+    <button class="btn pri" data-view="pw"><span>Open the paywall</span></button>
+    <button class="btn ghost" id="heroDemo"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>Watch the 30-second walkthrough</button>
+  </div>
+  <div class="live"><i></i>A working prototype, not a mockup</div>
+  </div>
+  <div class="desert" aria-hidden="true">
+    <div class="gr"></div>
+    <img class="bu" src="img/bush-2-a58e3270.png" alt="">
+    <img class="p1" src="img/frame-18-7b6d5d3c.png" alt="">
+    <img class="p2" src="img/frame-21-b3ed3bb3.png" alt="">
+    <img class="p3" src="img/frame-19-d3ff8d3e.png" alt="">
+    <img class="ro" src="img/rock-2-e0cfd356.png" alt="">
+  </div>
+</div>
+<div class="wrap">
+  <div class="proofbar">
+    <div class="pb"><span class="ti"><img src="img/1.png" alt=""></span><span><b>★ 4.8 · 13K ratings</b>US App Store</span></div>
+    <div class="pb"><span class="ti"><img src="img/image-903-fa74eff4.png" alt="" style="width:52px;height:52px;object-fit:cover"></span><span><b>1,000,000+ members</b>From your own onboarding</span></div>
+    <div class="pb"><span class="ti"><img src="img/2.png" alt=""></span><span><b>#33 Health &amp; Fitness</b>US App Store, October 2026</span></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+    <div class="stat"><b>5</b><span>changes, all on<br>the paywall</span></div>
+    <div class="stat"><b>0</b><span>changes to your<br>art direction</span></div>
+  </div>
+  <div class="fb">
+    <div class="fb-k">Built in Adapty Flow Builder</div>
+    <div class="fb-i"><span class="tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p></div>
+    <div class="fb-i"><span class="tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p></div>
+  </div>
+</div>
+
+<div class="sec"><div class="wrap">
+  <div class="sec-k">What this is</div>
+  <h2>We went through Stompers the way a new Stomper does, then rebuilt the screen where Super is decided.</h2>
+  <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we see what moves conversion across the market, not inside one app. We went through your iOS onboarding, from “Howdy! What’s your name?” and “Who do you want to use Stompers with?” to “Choose your Stomper” and “Choose your top”, on to the Super Stompers paywall, and checked every price against what the paywall and your App Store listing show.</p>
+  <p class="body">It is a fun, honest paywall in your own world: the desert, the outlined type, seven perks with their own art and a real review. What it does not do is use what Stompers just learned. <b>Mary picked a pink Stomper in a black sweater and said she wants to walk with all her friends. The paywall shows a yellow stranger,</b> lists the perks in the same order for everyone, keeps your rating three scrolls down, and prices two plans without saying per what.</p>
+  <div class="notes">
+    <div class="fc"><span class="ti"><img src="img/image-904-84e4f725.png" alt=""></span><div><h4>We did not redesign your paywall</h4><p>The desert hero, the outlined headline and your 2.5x line, the white plan card with the orange tick and the yellow “POPULAR” badge, the perk cards, the review, and the orange button with the black outline all stay. Only the Stomper, the words, the order and one small sheet change.</p></div></div>
+    <div class="fc"><span class="ti"><img src="img/image-903-fa74eff4.png" alt=""></span><div><h4>You may have tested some of this</h4><p>We are working from the outside, so we cannot see your live flow or your experiment history. If you have already run one of these, tell us and we will go deeper on the rest.</p></div></div>
+  </div>
+</div></div>
+
+<div class="sec" style="padding-top:0"><div class="wrap">
+  <div class="sec-k">What we change on the paywall</div>
+  <h2>Five changes, one screen, ranked by what we would test first.</h2>
+  <p class="body">Each one opens the paywall with that change highlighted.</p>
+  <div class="ideas">
+    <button class="idea" data-hl="1"><span class="ti c"><img src="img/guy-34fa27e2.png" alt=""><span class="no">1</span></span><span>
+      <h3>Put their own Stomper on the paywall</h3>
+      <p>A minute after “Choose your Stomper” and “Choose your top”, the paywall shows a yellow walker for everyone. Now their Stomper walks across your desert, in the colour and top they picked, with their name over it: “Mary, Super Stompers walk 2.5x more”.</p>
+      <span class="seeit">See it on the paywall →</span></span>
+      <span class="out"><b>CR +15–20%</b><span>to trial</span></span></button>
+    <button class="idea" data-hl="2"><span class="ti"><img src="img/image-903-fa74eff4.png" alt=""><span class="no">2</span></span><span>
+      <h3>Lead with who they walk with</h3>
+      <p>“Who do you want to use Stompers with?” is answered, then the same seven perks come in the same order. Now “All my friends” leads with a free card pack a day, “Close friends &amp; family” with switching items off, and “No one” with 24 hr mode, with one line under the headline that says why.</p>
+      <span class="seeit">See it on the paywall →</span></span>
+      <span class="out"><b>CR +10–15%</b><span>to trial</span></span></button>
+    <button class="idea" data-hl="3"><span class="ti c"><img src="img/1.png" alt=""><span class="no">3</span></span><span>
+      <h3>Your rating, under the button and up to date</h3>
+      <p>The paywall says 4.7 from 1.7k reviews, three scrolls below the button. Your US listing now shows 4.8 from 13K ratings, and your onboarding counts 1,000,000+ members. Now one line sits right under the button with both.</p>
+      <span class="seeit">See it on the paywall →</span></span>
+      <span class="out"><b>CR +10–15%</b><span>to trial</span></span></button>
+    <button class="idea" data-hl="4"><span class="ti c"><img src="img/guy-211e9765.png" alt=""><span class="no">4</span></span><span>
+      <h3>Say what each price is per</h3>
+      <p>Monthly reads “9,99 €”, Weekly “5,99 €”, and only Annual has a per-month line. Now every row ends in its period and a per-week price: 0,87 € a week for Annual against 5,99 € for Weekly. The button and the line under it follow the plan picked.</p>
+      <span class="seeit">See it on the paywall →</span></span>
+      <span class="out"><b>ARPU +8–15%</b><span>more on Annual</span></span></button>
+    <button class="idea" data-hl="5"><span class="ti"><img src="img/image-904-84e4f725.png" alt=""><span class="no">5</span></span><span>
+      <h3>A month of Super when they close</h3>
+      <p>The X ends it. Your Monthly plan, 9,99 € with no trial, is already on the paywall. Now the X opens it as a small Free vs Super sheet for people not ready for a year: no discount, no countdown.</p>
+      <span class="seeit">See it on the paywall →</span></span>
+      <span class="out"><b>CR +3–6%</b><span>from people who close</span></span></button>
+  </div>
+  <div class="band">
+    <div class="txt"><span class="lab">Potential outcome · based on Adapty data</span><p>Together, the five make the paywall finish what the onboarding started: their Stomper on screen, the perk that fits how they walk, your rating by the button, prices that say per what, and a smaller door when they close.</p></div>
+    <div class="tag"><div><b>up to +20%</b><span>CR to trial</span></div><div><b>up to +15%</b><span>ARPU</span></div></div>
+  </div>
+  <div class="cta-row">
+    <button class="btn pri" data-view="pw"><span>Open the paywall</span></button>
+    <div class="qr"><img src="img/qr.svg" alt="QR code to the paywall"><div><b>Open it on your phone</b><span>Scan to try the paywall in your hand.</span></div></div>
+  </div>
+</div></div>
+<div class="foot"><div class="wrap">Impact ranges are Adapty’s expected effect from teardowns and A/B tests across subscription apps — not measured lift for Stompers. Prices, plans, the 2.5x line, the perks and the review come from the Super Stompers paywall in the iOS app; 1,000,000+ members from your onboarding; the 4.8 rating from 13K ratings and the chart position from your US App Store listing (Spanish screen: your Spanish listing); art from stompers.com. Per-week prices are computed from your own prices. Dark mode on the phone is our approximation of your Super perk.</div></div>
+</div><!-- /view-over -->
+
+<!-- ======================= PAYWALL ======================= -->
+<div class="view" id="view-pw">
+<div class="stage">
+  <div class="phonecol" id="phonecol">
+    <div class="backbar"><button class="backbtn" data-view="over"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></i>Overview</button><span class="where">Super Stompers, right after onboarding</span></div>
+    <div class="tools">
+      <div class="seg" id="segLang"><button data-l="en" class="on">EN</button><button data-l="es">ES</button></div>
+      <div class="seg" id="segTheme"><button data-m="light" class="on">Light</button><button data-m="dark">Dark</button></div>
+      <div class="seg" id="segVar"><button data-v="today">Today</button><button data-v="new" class="on">Proposed</button></div>
+      <div class="seg demo"><button id="demoBtn"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button></div>
+    </div>
+    <div class="demo-cap" id="demoCap"><span id="demoTxt"></span><div class="bar"><i id="demoBar"></i></div></div>
+
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar"><span>9:41</span><span class="g">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.3-1.3A10.3 10.3 0 0 0 8 .3 10.3 10.3 0 0 0 .7 3.3L2 4.6a8.4 8.4 0 0 1 6-2.4Zm0 3.7c1.3 0 2.5.5 3.4 1.3l1.3-1.3A6.6 6.6 0 0 0 8 4a6.6 6.6 0 0 0-4.7 1.9l1.3 1.3C5.5 6.4 6.7 5.9 8 5.9Zm0 3.6c.5 0 1 .2 1.3.5L8 11.3 6.7 10c.3-.3.8-.5 1.3-.5Z"/></svg>
+          <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="currentColor" opacity=".45"/></svg></span></div>
+        <div class="homebar"></div>
+
+        <section class="scr" id="pw">
+          <button class="scr-x" id="pwX" aria-label="Close" data-t="5"><svg width="20" height="20" viewBox="0 0 14 14"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <div class="scr-body" id="pwBody"></div>
+          <div class="scr-foot"><button class="scr-cta" id="pwCta"><span id="pwCtaT"></span></button><p class="scr-help" id="pwHelp"></p><p class="scr-proof pz" id="pwProof" data-t="3"></p><div class="scr-links"><span id="lnT"></span><span id="lnR"></span><span id="lnP"></span></div></div>
+        </section>
+
+        <div class="scr-dim" id="ofDim"></div>
+        <section class="scr-of" id="of">
+          <div class="hdl"></div>
+          <button class="ox" id="ofX" aria-label="Close"><svg width="16" height="16" viewBox="0 0 14 14"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <div class="of-art"><img src="img/image-903-fa74eff4.png" alt=""></div>
+          <h2 class="of-h st" id="ofH"></h2>
+          <p class="of-s" id="ofS"></p>
+          <table class="cmp" id="ofCmp"></table>
+          <button class="scr-cta" id="ofCta"><span id="ofCtaT"></span></button>
+          <p class="scr-help" id="ofHelp" style="margin-top:0"></p>
+          <button class="of-no" id="ofNo"></button>
+        </section>
+        <div class="scr-toast" id="toast"></div>
+        <div id="mks"></div>
+      </div>
+    </div>
+
+    <div class="chips" id="chips"><button class="chip on" data-go="top">Paywall</button><button class="chip" data-go="plans">Plans</button><button class="chip offer" data-go="of">✦ Offer on close</button></div>
+
+    <div class="ans" id="ans">
+      <div class="k">What Stompers already knows</div>
+      <p>Straight from your own onboarding. Change them and the paywall above rewrites itself.</p>
+      <label for="aName">“Howdy! What’s your name?”</label><input id="aName" value="Mary" autocomplete="off" maxlength="12">
+      <label>“Choose your Stomper”</label><div class="cols" id="aCol"></div>
+      <label>“Who do you want to use Stompers with?”</label><div class="who" id="aWho"></div>
+    </div>
+    <div class="qr side"><img src="img/qr.svg" alt="QR code to the paywall"><div><b>Open it on your phone</b><span>Scan to try the paywall in your hand.</span></div></div>
+  </div>
+
+  <aside class="panelcol"><div class="pn">
+    <div class="pn-eb">Paywall rebuild · October 2026</div>
+    <h1>The Super Stompers paywall, finishing what the onboarding started</h1>
+    <p class="lede">Same screen, same art direction, same prices. Five changes, each fed by something Stompers already asks, already sells or already publishes. Flip <b>Today</b> above the phone to see the screen as it ships.</p>
+    <div class="pn-from" id="pnFrom"></div>
+    <div class="pn-lang" id="pnLang"></div>
+
+    <div class="chg" data-c="1"><span class="no">1</span><div>
+      <h3>Their own Stomper on the paywall</h3>
+      <dl class="ba"><dt>Today</dt><dd>A yellow walker and <q>People who have Super Stompers walk 2.5x more</q>, the same for everyone.</dd>
+        <dt>Now</dt><dd id="c1now"></dd></dl>
+      <div class="uses"><b>Uses:</b> the name from “Howdy! What’s your name?”, the colour from “Choose your Stomper” and the top from “Choose your top”, walking across your own desert with your rock and bush. Your 2.5x line stays word for word.</div>
+      <div class="imp"><span class="lbl">Potential outcome · based on Adapty data</span><b>CR +15–20%</b><span>to trial</span></div></div></div>
+
+    <div class="chg" data-c="2"><span class="no">2</span><div>
+      <h3>The perk that fits who they walk with</h3>
+      <dl class="ba"><dt>Today</dt><dd>Seven perks in one fixed order, starting with 24 hr mode, whatever they answered.</dd>
+        <dt>Now</dt><dd id="c2now"></dd></dl>
+      <div class="uses"><b>Uses:</b> the answer to “Who do you want to use Stompers with?” and your seven perk cards, art and words unchanged; only the order and one line under the headline change.</div>
+      <div class="imp"><span class="lbl">Potential outcome · based on Adapty data</span><b>CR +10–15%</b><span>to trial</span></div></div></div>
+
+    <div class="chg" data-c="3"><span class="no">3</span><div>
+      <h3>Your rating, under the button and up to date</h3>
+      <dl class="ba"><dt>Today</dt><dd><q>Loved by thousands of Stompers like you</q>, 4.7 from 1.7k reviews, three scrolls below the button.</dd>
+        <dt>Now</dt><dd><q>★ 4.8 · 13K ratings · 1,000,000+ Stompers</q> right under the button and the price line; the block at the bottom shows the same, current numbers.</dd></dl>
+      <div class="uses"><b>Uses:</b> 4.8 from 13K ratings on your US listing (Spanish screen: 4.7 from your Spanish listing’s ratings) and “Joining our 1,000,000+ member community” from your own onboarding.</div>
+      <div class="imp"><span class="lbl">Potential outcome · based on Adapty data</span><b>CR +10–15%</b><span>to trial</span></div></div></div>
+
+    <div class="chg" data-c="4"><span class="no">4</span><div>
+      <h3>Every price says per what</h3>
+      <dl class="ba"><dt>Today</dt><dd>Annual 44,99 € with 3,74 €/mo; Monthly <q>9,99 €</q>; Weekly <q>5,99 €</q>. The button says <q>Try 7 days for free</q> over <q>then 44,99 €/year</q>.</dd>
+        <dt>Now</dt><dd id="c4now"></dd></dl>
+      <div class="uses"><b>Uses:</b> your three prices and your <q>POPULAR · SAVE €74.89</q> badge. 44,99 € over 52 weeks is 0,87 € a week; 9,99 € a month is 2,31 € a week.</div>
+      <div class="imp"><span class="lbl">Potential outcome · based on Adapty data</span><b>ARPU +8–15%</b><span>more people on Annual</span></div></div></div>
+
+    <div class="chg" data-c="5"><span class="no">5</span><div>
+      <h3>A month of Super when they close</h3>
+      <dl class="ba"><dt>Today</dt><dd>The X closes the paywall. No second offer.</dd>
+        <dt>Now</dt><dd id="c5now"></dd></dl>
+      <div class="uses"><b>Uses:</b> your own Monthly plan at 9,99 €, no trial, and five of your perks for the comparison. A different plan, not a discount on Annual; no countdown.</div>
+      <div class="imp"><span class="lbl">Potential outcome · based on Adapty data</span><b>CR +3–6%</b><span>from people who would have closed</span></div></div></div>
+
+    <div class="kept"><div class="k">Your design, unchanged</div>
+      <p>The desert hero, the outlined headline, the white plan card with the orange tick and the yellow badge, “Unlocking Super Stompers gets you…”, the seven perk cards with their art, the laurel rating and the review, the orange button with its black outline, and the Terms · Restore · Privacy row.</p></div>
+
+    <div class="pn-foot">Impact ranges are Adapty’s expected effect from teardowns and A/B tests across subscription apps — not measured lift for Stompers. Prices, plans, perks, the 2.5x line and the review come from the paywall in the iOS app; 1,000,000+ members from your onboarding; the rating from your US and Spanish App Store listings. Dark mode on the phone is our approximation of your Super perk.</div>
+  </div></aside>
+</div>
+</div><!-- /view-pw -->
+<div class="finger" id="finger"></div>
+
+<script>
+var $=function(s){return document.querySelector(s);}, $$=function(s){return [].slice.call(document.querySelectorAll(s));};
+var LANGS=['en','es'];
+/* “Choose your Stomper”: the pink one, recoloured */
+var COL={pink:['Pink','none'],cyan:['Cyan','hue-rotate(-100deg) saturate(1.15)'],yellow:['Yellow','hue-rotate(118deg) saturate(1.05) brightness(1.08)'],green:['Green','hue-rotate(-160deg) saturate(.9) brightness(1.05)']};
+/* your seven perks, art cropped from the paywall */
+var F={'24h':['img/t-24h.png',['24 hr mode','Play all night long'],['Modo 24 h','Juega toda la noche']],
+ bg:['img/t-bg.png',['Backgrounds','Customize your app'],['Fondos','Personaliza tu app']],
+ packs:['img/t-packs.png',['More card packs','1 free card pack a day'],['Más sobres de cartas','1 sobre gratis al día']],
+ settings:['img/t-settings.png',['Custom game settings','Disable items and more'],['Ajustes de partida','Desactiva objetos y más']],
+ dark:['img/t-dark.png',['Dark mode','Nice on the eyes'],['Modo oscuro','Descansa la vista']],
+ noads:['img/t-noads.png',['No ads','Stay focused on the game'],['Sin anuncios','Céntrate en el juego']],
+ creators:['img/t-creators.png',['Support creators','Help our small team'],['Apoya a los creadores','Ayuda a nuestro pequeño equipo']]};
+var BASE=['24h','bg','packs','settings','dark','noads','creators'];
+var WHO={all:['All my friends',['packs','settings','24h']],fam:['Close friends & family',['settings','packs','dark']],none:['No one',['24h','bg','dark']]};
+var T={
+ h1T:['People who have Super Stompers walk 2.5x more','Quienes tienen Super Stompers caminan 2,5 veces más'],
+ h1:['{N}, Super Stompers walk 2.5x more','{N}, los Super Stompers caminan 2,5 veces más'],
+ sub:{all:['Beat <b>all your friends</b> with a free card pack every day.','Gana a <b>todos tus amigos</b> con un sobre gratis cada día.'],
+      fam:['Keep it friendly with <b>family</b>: switch items off.','Juega en buen plan con <b>la familia</b>: desactiva objetos.'],
+      none:['Walking <b>on your own</b>? Keep counting all night.','¿Caminas <b>por tu cuenta</b>? Sigue contando toda la noche.']},
+ forYou:['For you','Para ti'],
+ annual:['Annual (Free Trial)','Anual (prueba gratis)'], annualS:['For peace of mind','Para estar tranquilo'],
+ monthly:['Monthly','Mensual'], monthlyS:['Take your time','Sin prisa'],
+ weekly:['Weekly','Semanal'], weeklyS:['Pay-as-you-go','Paga sobre la marcha'],
+ badge:['POPULAR · SAVE €74.89','POPULAR · AHORRA 74,89 €'],
+ pA:['44,99 €/yr','44,99 €/año'], pAs:['0,87 €/wk','0,87 €/sem'], pAt:['3,74 €/mo','3,74 €/mes'],
+ pM:['9,99 €/mo','9,99 €/mes'], pMs:['2,31 €/wk','2,31 €/sem'],
+ pW:['5,99 €/wk','5,99 €/sem'],
+ lab:['Unlocking Super Stompers gets you…','Con Super Stompers consigues…'],
+ love:['Loved by thousands of Stompers like you','Miles de Stompers como tú lo adoran'],
+ rate:{en:['4.8','13K ratings'],es:['4,7','valoraciones en España']},
+ rateT:['4.7','1.7k reviews'],
+ rev:['I feel so much better!','Stompers is amazing! Competing with friends has helped me get more active and I’ve lost 7lbs since I started using the app. Great app if you want to make real progress getting fit.'],
+ cta:{a:['Try 7 days for free','Prueba 7 días gratis'],m:['Continue','Continuar'],w:['Continue','Continuar']},
+ ctaT:['Try 7 days for free','Prueba 7 días gratis'],
+ help:{a:['then 44,99 €/year, cancel anytime','luego 44,99 €/año, cancela cuando quieras'],m:['9,99 €/month, cancel anytime','9,99 €/mes, cancela cuando quieras'],w:['5,99 €/week, cancel anytime','5,99 €/semana, cancela cuando quieras']},
+ proof:['<i>★</i> 4.8 · 13K ratings · 1,000,000+ Stompers','<i>★</i> 4,7 en el App Store · más de 1.000.000 de Stompers'],
+ links:[['Terms of Use','Restore Purchase','Privacy Policy'],['Términos de uso','Restaurar compra','Privacidad']],
+ ofH:['Not ready for a year? Try Super for a month','¿No quieres un año? Prueba Super un mes'],
+ ofS:['{N}, keep every Super perk with <b>{W}</b> for 9,99 €. No trial, cancel anytime.','{N}, todas las ventajas de Super con <b>{W}</b> por 9,99 €. Sin prueba, cancela cuando quieras.'],
+ ofW:{all:['all your friends','todos tus amigos'],fam:['your family','tu familia'],none:['your steps','tus pasos']},
+ cmpH:[['','Free','Super'],['','Gratis','Super']],
+ cmp:[['Walk and play with friends','1 free card pack a day','24 hr mode','Custom game settings','No ads'],['Caminar y jugar con amigos','1 sobre gratis al día','Modo 24 h','Ajustes de partida','Sin anuncios']],
+ ofCta:['Get Super Monthly','Hazte Super mensual'], ofHelp:['9,99 €/month, cancel anytime','9,99 €/mes, cancela cuando quieras'],
+ ofNo:['No thanks','No, gracias'],
+ toastBuy:['App Store purchase sheet opens here','Aquí se abre la compra del App Store'],
+ toastX:['Closes back to Stompers','Vuelve a Stompers'],
+ langNote:['','Spanish screen translated by us, for the Spanish App Store your frames came from. Prices stay the euros your paywall shows; the rating switches to your Spanish listing (4.7); the review stays in English, as published.']
+};
+var S={chip:'top',v:'new',lang:'en',theme:'light',name:'Mary',col:'pink',who:'all',plan:'a',of:false};
+function L(){ return LANGS.indexOf(S.lang); }
+function esc(s){ return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function nm(){ return esc(S.name.trim().split(' ')[0]) || ['Stomper','Stomper'][L()]; }
+function fill(s){ return s.replace(/\{N\}/g,nm()).replace(/\{W\}/g,T.ofW[S.who][L()]); }
+function order(){ var lead=WHO[S.who][1]; return lead.concat(BASE.filter(function(k){ return lead.indexOf(k)<0; })); }
+var CK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function stars(){ return '★★★★★'; }
+
+function render(){
+  var pz=S.v==='new', i=L(), pin=$('#phoneIn'), body=$('#pwBody'), st=body.scrollTop, h='';
+  pin.classList.toggle('today',!pz); pin.classList.toggle('dark',S.theme==='dark');
+  if(!pz){ S.of=false; }
+  var plan=pz?S.plan:'a';
+  pin.classList.toggle('ofon',S.of);
+  if(pz){
+    h+='<div class="scr-hero" data-t="1"><img class="bu" src="img/bush-2-a58e3270.png" alt=""><img class="ro" src="img/rock-2-e0cfd356.png" alt=""><img class="me" src="img/stomper.png" alt="" style="filter:'+COL[S.col][1]+'"><span class="nm">'+nm()+'</span></div>';
+    h+='<h1 class="scr-h1 st">'+fill(T.h1[i])+'</h1>';
+    h+='<p class="scr-sub" data-t="2">'+T.sub[S.who][i]+'</p>';
+  } else {
+    h+='<div class="scr-hero t"></div><h1 class="scr-h1 st">'+T.h1T[i]+'</h1>';
+  }
+  h+='<div class="scr-plans" id="plans" data-t="4"><span class="scr-badge">'+T.badge[i]+'</span>';
+  h+=row('a',T.annual[i],T.annualS[i],'44,99 €',pz?T.pAs[i]:T.pAt[i],plan,pz?T.pA[i]:null);
+  h+=row('m',T.monthly[i],T.monthlyS[i],'9,99 €',pz?T.pMs[i]:'',plan,pz?T.pM[i]:null);
+  h+=row('w',T.weekly[i],T.weeklyS[i],'5,99 €','',plan,pz?T.pW[i]:null);
+  h+='</div><p class="scr-lab">'+T.lab[i]+'</p><div class="scr-fs">';
+  var ord=pz?order():BASE, lead=pz?WHO[S.who][1][0]:null;
+  ord.forEach(function(k){ var f=F[k], tx=i?f[2]:f[1]; h+='<div class="scr-f"><img src="'+f[0]+'" alt=""><div><b>'+tx[0]+(k===lead?'<em>'+T.forYou[i]+'</em>':'')+'</b><span>'+tx[1]+'</span></div></div>'; });
+  h+='</div>';
+  var R=pz?(i?T.rate.es:T.rate.en):T.rateT;
+  h+='<div class="scr-love"><h3 class="st">'+T.love[i]+'</h3><div class="r">'+R[0]+'</div><div class="stars">'+stars()+'</div><div class="n">'+R[1]+'</div></div>';
+  h+='<div class="scr-rev"><div class="top"><div><b>'+T.rev[0]+'</b><div class="stars">'+stars()+'</div></div><div class="who">Mar 2nd<br>Kayla M.</div></div><p>'+T.rev[1]+'</p></div>';
+  body.innerHTML=h; body.scrollTop=st;
+  $$('#pwBody .scr-p').forEach(function(b){ b.addEventListener('click',function(){ if(S.v==='new'){ S.plan=b.dataset.p; render(); } }); });
+  /* footer */
+  $('#pwCtaT').textContent=pz?T.cta[plan][i]:T.ctaT[i];
+  $('#pwHelp').textContent=T.help[plan][i];
+  $('#pwProof').innerHTML=T.proof[i];
+  $('#lnT').textContent=T.links[i][0]; $('#lnR').textContent=T.links[i][1]; $('#lnP').textContent=T.links[i][2];
+  /* offer */
+  $('#ofH').textContent=T.ofH[i]; $('#ofS').innerHTML=fill(T.ofS[i]);
+  var Y='<span class="y">✓</span>', N='<span class="n">✕</span>';
+  $('#ofCmp').innerHTML='<tr><th>'+T.cmpH[i][0]+'</th><th>'+T.cmpH[i][1]+'</th><th class="p">'+T.cmpH[i][2]+'</th></tr>'+T.cmp[i].map(function(r,n){ return '<tr><td>'+r+'</td><td>'+(n===0?Y:N)+'</td><td>'+Y+'</td></tr>'; }).join('');
+  $('#ofCtaT').textContent=T.ofCta[i]; $('#ofHelp').textContent=T.ofHelp[i]; $('#ofNo').textContent=T.ofNo[i];
+  $('#of').classList.toggle('on',S.of); $('#ofDim').classList.toggle('on',S.of);
+  $$('#chips .chip').forEach(function(c){ c.classList.toggle('on',S.of?c.dataset.go==='of':c.dataset.go===(S.chip==='plans'&&pz?'plans':'top')); });
+  $$('#aCol button').forEach(function(b){ b.classList.toggle('on',b.dataset.k===S.col); });
+  $$('#aWho button').forEach(function(b){ b.classList.toggle('on',b.dataset.k===S.who); });
+  /* panel echoes, always in English */
+  var k=S.lang; S.lang='en';
+  $('#c1now').innerHTML='Their <b>'+COL[S.col][0].toLowerCase()+'</b> Stomper in the black sweater they picked walks across your desert with <b>'+nm()+'</b> in a bubble over it, and the headline reads <q>'+fill(T.h1[0])+'</q>.';
+  $('#c2now').innerHTML='They said <b>'+WHO[S.who][0]+'</b>: <q>'+F[WHO[S.who][1][0]][1][0]+'</q> leads, marked “For you”, then '+F[WHO[S.who][1][1]][1][0]+' and '+F[WHO[S.who][1][2]][1][0]+'. Under the headline: <q>'+T.sub[S.who][0].replace(/<\/?b>/g,'')+'</q>';
+  $('#c4now').innerHTML='Annual <b>44,99 €/yr · 0,87 €/wk</b> · Monthly <b>9,99 €/mo · 2,31 €/wk</b> · Weekly <b>5,99 €/wk</b>. Pick Monthly and the button reads <q>Continue</q> over <q>9,99 €/month, cancel anytime</q>.';
+  $('#c5now').innerHTML='The X opens <q>'+T.ofH[0]+'</q>: your high-five art, a Free vs Super table with five of your perks, and <b>Monthly, 9,99 €</b> in one tap. <q>No thanks</q> closes.';
+  S.lang=k;
+  $('#pnFrom').innerHTML=['Name <b>'+nm()+'</b>','Stomper <b>'+COL[S.col][0]+'</b>','With <b>'+WHO[S.who][0]+'</b>'].map(function(x){ return '<span>'+x+'</span>'; }).join('');
+  $('#pnLang').textContent=T.langNote[i]; $('#pnLang').classList.toggle('on',i>0);
+  requestAnimationFrame(placeMarks);
+}
+function row(id,t,s,price,sub,plan,pzPrice){
+  return '<button class="scr-p'+(plan===id?' on':'')+'" data-p="'+id+'"><span class="rd">'+CK+'</span><span><b>'+t+'</b><small>'+s+'</small></span><span class="pr">'+(pzPrice||price)+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
+}
+$('#aCol').innerHTML=Object.keys(COL).map(function(k){ return '<button data-k="'+k+'" aria-label="'+COL[k][0]+'"><img src="img/stomper.png" alt="" style="filter:'+COL[k][1]+'"></button>'; }).join('');
+$('#aWho').innerHTML=Object.keys(WHO).map(function(k){ return '<button data-k="'+k+'">'+WHO[k][0]+(k==='all'?'<em>Most popular</em>':'')+'</button>'; }).join('');
+
+function placeMarks(){
+  var pin=$('#phoneIn'), box=pin.getBoundingClientRect(), z=box.width/pin.offsetWidth||1, h='', body=$('#pwBody').getBoundingClientRect();
+  if(!pin.offsetParent){ $('#mks').innerHTML=''; return; }
+  [1,2,3,4,5].forEach(function(n){
+    var el=document.querySelector('#pw [data-t="'+n+'"]'); if(!el||!el.offsetParent) return;
+    var r=el.getBoundingClientRect(), x, y;
+    if(n===1){ x=(r.left-box.left)/z+16; y=(r.top-box.top)/z+60; }
+    else if(n===5){ x=(r.left-box.left)/z-24; y=(r.top-box.top)/z+6; }
+    else if(n===3){ x=(r.left-box.left)/z+6; y=(r.top-box.top)/z-2; }
+    else if(n===2){ x=(r.left-box.left)/z-32; y=(r.top-box.top)/z-2; }
+    else { x=(r.left-box.left)/z-8; y=(r.top-box.top)/z-12; }
+    if(n!==3&&n!==5&&(r.top<body.top-6||r.top>body.bottom-30)) return;
+    h+='<span class="mk" data-mk="'+n+'" style="left:'+Math.max(4,x)+'px;top:'+y+'px">'+n+'</span>';
+  });
+  $('#mks').innerHTML=h;
+}
+$('#pwBody').addEventListener('scroll',placeMarks);
+window.addEventListener('resize',placeMarks);
+
+function seg(id,attr,fn){ $$('#'+id+' button').forEach(function(b){ b.addEventListener('click',function(e){ if(e.isTrusted) stopDemo(); fn(b.dataset[attr]); $$('#'+id+' button').forEach(function(x){ x.classList.toggle('on',x===b); }); render(); }); }); }
+seg('segVar','v',function(v){ S.v=v; });
+seg('segLang','l',function(v){ S.lang=v; });
+seg('segTheme','m',function(v){ S.theme=v; });
+function setVar(v){ S.v=v; $$('#segVar button').forEach(function(x){ x.classList.toggle('on',x.dataset.v===v); }); }
+$('#aName').addEventListener('input',function(e){ S.name=e.target.value; render(); });
+function opt(id,key){ $$(id+' button').forEach(function(b){ b.addEventListener('click',function(e){ if(e.isTrusted) stopDemo(); S[key]=b.dataset.k; S.of=false; render(); }); }); }
+opt('#aCol','col'); opt('#aWho','who');
+function scrollToPlans(){ var el=$('#plans'), b=$('#pwBody'); if(!el) return; b.scrollTop=el.offsetTop-30; placeMarks(); }
+$$('#chips .chip').forEach(function(c){ c.addEventListener('click',function(e){ if(e.isTrusted) stopDemo(); var g=c.dataset.go; S.of=false; S.chip=g;
+  if(g==='of'){ setVar('new'); S.of=true; } else if(g==='plans'){ setVar('new'); }
+  render(); if(g==='top') $('#pwBody').scrollTop=0; if(g==='plans'){ scrollToPlans(); flash(4); focusChg(4); } if(g==='of') focusChg(5); }); });
+var tt; function toast(m){ var e=$('#toast'); e.textContent=m; e.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){ e.classList.remove('show'); },1600); }
+$('#pwCta').addEventListener('click',function(){ toast(T.toastBuy[L()]); });
+$('#ofCta').addEventListener('click',function(){ toast(T.toastBuy[L()]); });
+$('#pwX').addEventListener('click',function(){ if(S.v==='new'){ S.of=true; render(); } else toast(T.toastX[L()]); });
+function closeOf(){ S.of=false; render(); toast(T.toastX[L()]); }
+$('#ofNo').addEventListener('click',closeOf); $('#ofX').addEventListener('click',closeOf);
+$('#ofDim').addEventListener('click',function(){ S.of=false; render(); });
+
+function flash(n){ var el=document.querySelector('#pw [data-t="'+n+'"]'); if(el){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); } }
+function focusChg(n){ var c=document.querySelector('.chg[data-c="'+n+'"]'), pc=$('.panelcol'); if(c){ if(pc.scrollHeight>pc.clientHeight+4) pc.scrollTop=Math.max(0,pc.scrollTop+c.getBoundingClientRect().top-pc.getBoundingClientRect().top-120); c.style.background='rgba(247,120,31,.08)'; setTimeout(function(){ c.style.background=''; },3200); } }
+$$('.chg').forEach(function(c){
+  var n=c.dataset.c;
+  c.addEventListener('mouseenter',function(){ if(S.v!=='new') return; $$('#pw [data-t="'+n+'"]').forEach(function(e){ e.classList.add('hl'); }); var m=document.querySelector('[data-mk="'+n+'"]'); if(m) m.classList.add('hot'); });
+  c.addEventListener('mouseleave',function(){ $$('.hl').forEach(function(e){ e.classList.remove('hl'); }); $$('.mk.hot').forEach(function(e){ e.classList.remove('hot'); }); });
+});
+
+/* ---- views ---- */
+function showView(v){ if(v!=='pw') stopDemo(); $$('.view').forEach(function(x){ x.classList.remove('on'); }); $('#view-'+v).classList.add('on');
+  $$('.nav-links button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); }); window.scrollTo(0,0); requestAnimationFrame(placeMarks); }
+$$('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+$$('.idea[data-hl]').forEach(function(b){ b.addEventListener('click',function(){
+  var n=+b.dataset.hl; showView('pw'); setVar('new'); S.of=(n===5); S.chip=n===4?'plans':'top';
+  $('#pwBody').scrollTop=0; render();
+  if(n===4) scrollToPlans();
+  setTimeout(function(){ if(n<5) flash(n); focusChg(n); placeMarks(); },260); }); });
+
+/* ---- the 30-second walkthrough ---- */
+var demo={on:false,tok:0,t0:0,dur:21000,raf:0};
+function wait(ms,tok){ return new Promise(function(res,rej){ setTimeout(function(){ tok===demo.tok?res():rej('stop'); },ms); }); }
+function cap(txt){ $('#demoTxt').textContent=txt; }
+function fingerTo(el){ var r=el.getBoundingClientRect(), f=$('#finger'); f.style.left=(r.left+r.width/2+window.scrollX)+'px'; f.style.top=(r.top+r.height/2+window.scrollY)+'px'; f.classList.add('on'); }
+async function tap(sel,tok){ var el=typeof sel==='string'?$(sel):sel; if(!el) return; var r=el.getBoundingClientRect(); if(r.top<0||r.bottom>innerHeight){ $('#finger').classList.remove('on'); el.click(); await wait(160,tok); return; } await wait(140,tok); fingerTo(el); await wait(380,tok); $('#finger').classList.add('press'); await wait(120,tok); $('#finger').classList.remove('press'); el.click(); await wait(160,tok); }
+function bar(){ if(!demo.on) return; var p=Math.min(1,(performance.now()-demo.t0)/demo.dur); $('#demoBar').style.width=(p*100)+'%'; demo.raf=requestAnimationFrame(bar); }
+async function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=performance.now();
+  showView('pw'); window.scrollTo(0,0); $('#phoneIn').classList.add('indemo');
+  setVar('today'); S.name='Mary'; S.col='pink'; S.who='all'; S.plan='a'; S.of=false; $('#aName').value='Mary';
+  $('#pwBody').scrollTop=0; render();
+  $('#demoCap').classList.add('on'); bar();
+  try{
+    cap('Today: a yellow walker and the same words for everyone.'); await wait(2200,tok);
+    cap('Proposed: Mary’s own pink Stomper, in the sweater she picked.'); await tap('#segVar [data-v=new]',tok); await wait(2300,tok);
+    cap('Picked cyan instead? The Stomper follows.'); await tap('#aCol [data-k=cyan]',tok); await wait(1800,tok);
+    cap('Walking with family? Switching items off leads.'); await tap('#aWho [data-k=fam]',tok); await wait(2200,tok);
+    cap('Under the button: 4.8 from 13K ratings, 1,000,000+ Stompers.'); flash(3); await wait(2300,tok);
+    cap('Every price says per what. Pick Monthly, the button follows.'); await tap('#pwBody [data-p=m]',tok); await wait(1500,tok); await tap('#pwBody [data-p=a]',tok); await wait(900,tok);
+    cap('Close it, and Monthly gets a second chance: 9,99 €, no trial.'); await tap('#pwX',tok); await wait(2600,tok);
+    cap('A plan you already sell, at your price. No discount.'); await wait(2000,tok);
+  }catch(e){ return; }
+  stopDemo();
+}
+function stopDemo(){ if(!demo.on) return; demo.on=false; demo.tok++; cancelAnimationFrame(demo.raf); $('#demoCap').classList.remove('on'); $('#finger').classList.remove('on'); $('#phoneIn').classList.remove('indemo'); requestAnimationFrame(placeMarks); }
+$('#demoBtn').addEventListener('click',startDemo);
+$('#heroDemo').addEventListener('click',startDemo);
+$('#phoneIn').addEventListener('pointerdown',function(e){ if(e.isTrusted) stopDemo(); });
+$('#aName').addEventListener('pointerdown',function(e){ if(e.isTrusted) stopDemo(); });
+$$('.nav-links button').forEach(function(b){ b.addEventListener('click',stopDemo); });
+
+render();
+window.addEventListener('load',placeMarks);
+if(document.fonts) document.fonts.ready.then(placeMarks);
+if(/[?&]open=(proto|pw)/.test(location.search)) showView('pw');
+</script>
+</body>
+</html>
